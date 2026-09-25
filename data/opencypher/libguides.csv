@@ -1,3 +1,5 @@
 id:ID,title:string,description:string,program:string,:LABEL
-lg_intl,International Data Guide,"Contains Data of the Earth for SIPA's MPA-ESP program, including Columbia CIESIN data.",SIPA MPA-ESP,Libguide
-lg_med,Data Analysis Tools Guide,Includes bio-stats books by Rafael A. Irizarry under the R tab for Medical Campus R users.,Medical Campus,Libguide
+lg_international_sipa,International Data Guide,"Features 'Data of the Earth' section for SIPA's MPA-ESP program, including the Columbia CIESIN data catalog.",SIPA MPA-ESP,Libguide
+lg_datatools_med,Data Analysis Tools Guide,"Includes two bio-stats books by Rafael A. Irizarry under the 'R' tab, tailored for Medical Campus R users.",Medical Campus,Libguide
+lg_numeric_data,Numeric Data Collection Guide,Index of Columbia licensed datasets searchable in CLIO via 965DataGate and migrating to Redivis CDP.,Research Data Services (RDS),Libguide
+lg_election_opinion,Public Opinion Poll & Election Data Guide,"Covers polling data, CPRC election voter data (L2), and IPUMS restricted access census datasets.",Political Science & CPRC,Libguide

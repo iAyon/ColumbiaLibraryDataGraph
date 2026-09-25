@@ -1,3 +1,4 @@
 id:ID,name:string,:LABEL
-platform_clio,CLIO,Platform
-platform_redivis,Redivis,Platform
+platform_clio_catalog,CLIO Catalog,Platform
+platform_open_source_repository,Open Source Repository,Platform
+platform_redivis_(columbia_data_platform),Redivis (Columbia Data Platform),Platform

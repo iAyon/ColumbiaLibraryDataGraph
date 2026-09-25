@@ -1,2 +1,5 @@
 id:ID,name:string,:LABEL
 spec_jeremiah,Jeremiah,SubjectSpecialist
+spec_jeremiah & ashley (cprc / cuit),Jeremiah & Ashley (CPRC / CUIT),SubjectSpecialist
+spec_eric,Eric,SubjectSpecialist
+spec_moacir,Moacir,SubjectSpecialist

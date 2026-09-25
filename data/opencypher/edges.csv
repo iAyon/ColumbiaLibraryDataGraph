@@ -1,6 +1,14 @@
 :START_ID,:END_ID,:TYPE
-clio_123,platform_clio,HOSTED_ON
-cdp_hcup,platform_redivis,HOSTED_ON
+clio_965_poll2020,platform_clio_catalog,HOSTED_ON
+clio_965_numeric,platform_clio_catalog,HOSTED_ON
+open_nasa_earth,platform_open_source_repository,HOSTED_ON
+cdp_hcup,platform_redivis_(columbia_data_platform),HOSTED_ON
 cdp_hcup,spec_jeremiah,MANAGED_BY
-cdp_l2,platform_redivis,HOSTED_ON
-cdp_l2,spec_jeremiah,MANAGED_BY
+cdp_l2_voter,platform_redivis_(columbia_data_platform),HOSTED_ON
+cdp_l2_voter,spec_jeremiah & ashley (cprc / cuit),MANAGED_BY
+cdp_ipums_census,platform_redivis_(columbia_data_platform),HOSTED_ON
+cdp_ipums_census,spec_jeremiah & ashley (cprc / cuit),MANAGED_BY
+cdp_geospatial_eric,platform_redivis_(columbia_data_platform),HOSTED_ON
+cdp_geospatial_eric,spec_eric,MANAGED_BY
+cdp_text_moacir,platform_redivis_(columbia_data_platform),HOSTED_ON
+cdp_text_moacir,spec_moacir,MANAGED_BY

@@ -2,7 +2,10 @@ import json
 import sys
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from src.neptune_client import NeptuneGraphClient
+try:
+    from src.neptune_client import NeptuneGraphClient
+except ModuleNotFoundError:
+    from neptune_client import NeptuneGraphClient
 
 # Ensure UTF-8 output encoding across environments
 if hasattr(sys.stdout, 'reconfigure'):
@@ -85,5 +88,7 @@ class GraphRAGDiscoveryAgent:
 
 if __name__ == "__main__":
     agent = GraphRAGDiscoveryAgent("data/mock_graph_nodes.json")
-    agent.search_and_traverse("I need voter data for an election project.")
-    agent.search_and_traverse("Looking for medical bio-stats tools in R.")
+    agent.search_and_traverse("Where can I find IPUMS census microdata for 1790 to 1950?")
+    agent.search_and_traverse("Looking for SIPA MPA-ESP data of the earth and CIESIN catalog")
+    agent.search_and_traverse("Bio-stats books by Rafael Irizarry under R tab for medical campus")
+    agent.search_and_traverse("HCUP healthcare cost dataset paid by Morningside faculty")

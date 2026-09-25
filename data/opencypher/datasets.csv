@@ -1,4 +1,9 @@
 id:ID,title:string,description:string,platform:string,access_level:string,manager:string,:LABEL
-clio_123,Public Opinion Poll Data 2020,Licensed public opinion polling data for the 2020 election cycle.,CLIO,Columbia-Licensed,,Dataset
-cdp_hcup,HCUP Healthcare Cost and Utilization Project,Restricted access medical campus and department data.,Redivis,Restricted,Jeremiah,Dataset
-cdp_l2,L2 Voter Data,Micro-level election voter data managed by the Population Research Center.,Redivis,Restricted,Jeremiah,Dataset
+clio_965_poll2020,Public Opinion Poll Data 2020 (965DataGate),Licensed public opinion polling data for the 2020 election cycle indexed in CLIO catalog under key 965DataGate.,CLIO Catalog,Columbia-Licensed,,Dataset
+clio_965_numeric,Numeric Data Collection (965DataGate),Columbia licensed numeric economic and social datasets searchable in CLIO catalog using key index 965DataGate.,CLIO Catalog,Columbia-Licensed,,Dataset
+open_nasa_earth,NASA Earth Science & Climate Open Datasets,Open source satellite data and climate observations from NASA. Note: Open source datasets do not have standard CLIO records.,Open Source Repository,Open Access,,Dataset
+cdp_hcup,HCUP Healthcare Cost and Utilization Project,Restricted access hospital inpatient and outpatient medical campus dataset. Funded by faculty across Morningside and Medical campuses.,Redivis (Columbia Data Platform),Restricted,Jeremiah,Dataset
+cdp_l2_voter,L2 Micro-Level Election Voter Data,Granular micro-level election voter data managed by Population Research Center (CPRC). Not searchable in CLIO.,Redivis (Columbia Data Platform),Restricted,Jeremiah & Ashley (CPRC / CUIT),Dataset
+cdp_ipums_census,IPUMS Restricted Access Full Count US Census (1790-1950),Full count US decennial census microdata (1790-1950) managed by Population Research Center (CPRC). Not searchable in CLIO.,Redivis (Columbia Data Platform),Restricted,Jeremiah & Ashley (CPRC / CUIT),Dataset
+cdp_geospatial_eric,Licensed Geospatial & Spatial Analytics Datasets,"Licensed GIS maps, boundary files, and spatial layers managed by Eric.",Redivis (Columbia Data Platform),Columbia-Licensed,Eric,Dataset
+cdp_text_moacir,Textual & Computational Linguistics Corpus,"Licensed text mining, linguistic corpora, and digital humanities datasets managed by Moacir.",Redivis (Columbia Data Platform),Columbia-Licensed,Moacir,Dataset
