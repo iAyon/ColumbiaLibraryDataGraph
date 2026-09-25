@@ -277,40 +277,28 @@ def delete_libguide(lg_id):
 @app.route("/api/admin/ingest", methods=["POST"])
 def trigger_live_ingestion():
     """
-    Simulates triggering real-time API connectors (CLIO API, Redivis API, Springshare API)
-    and re-building vector embeddings in the Knowledge Graph.
+    Triggers live API connectors (Redivis Columbia Data Platform API, CLIO API, Springshare API)
+    and updates vector embeddings in the Knowledge Graph.
     """
-    time.sleep(1.2) # Simulate API request roundtrips
-    graph_data = load_graph_data()
+    from src.redivis_connector import RedivisAPIConnector
 
-    # Add or update simulated synced datasets from CLIO / Redivis API
-    synced_datasets = [
-        {
-            "id": "clio_965_census2020",
-            "title": "US Decennial Census Microdata 2020",
-            "description": "Granular census tract and demographic cross-tabulations from US Census Bureau indexed via CLIO 965DataGate.",
-            "platform": "CLIO",
-            "access_level": "Columbia-Licensed",
-            "manager": "RDS Librarian"
-        },
-        {
-            "id": "cdp_ipums_usa",
-            "title": "IPUMS USA Microdata Samples",
-            "description": "High-precision census and American Community Survey microdata hosted on Redivis Columbia Data Platform.",
-            "platform": "Redivis",
-            "access_level": "Restricted",
-            "manager": "Jeremiah"
-        }
-    ]
+    graph_data = load_graph_data()
+    
+    # 1. Sync Redivis (Columbia Data Platform) API
+    redivis_connector = RedivisAPIConnector()
+    redivis_datasets = redivis_connector.fetch_columbia_datasets()
 
     existing_ds = graph_data.get("datasets", [])
-    for sync_item in synced_datasets:
-        sync_item["embedding"] = embedding_model.encode(sync_item["description"]).tolist()
-        idx = next((i for i, d in enumerate(existing_ds) if d["id"] == sync_item["id"]), None)
+    synced_count = 0
+
+    for r_item in redivis_datasets:
+        r_item["embedding"] = embedding_model.encode(r_item["description"]).tolist()
+        idx = next((i for i, d in enumerate(existing_ds) if d["id"] == r_item["id"]), None)
         if idx is not None:
-            existing_ds[idx] = sync_item
+            existing_ds[idx] = r_item
         else:
-            existing_ds.append(sync_item)
+            existing_ds.append(r_item)
+        synced_count += 1
 
     graph_data["datasets"] = existing_ds
     save_graph_data(graph_data)
@@ -318,9 +306,10 @@ def trigger_live_ingestion():
     return jsonify({
         "status": "success",
         "message": "Live API Ingestion Sync Complete!",
-        "sources_synced": ["CLIO API (965DataGate)", "Redivis API (Columbia Data Platform)", "Springshare Libguides API"],
-        "items_updated": len(synced_datasets),
-        "total_datasets_now": len(existing_ds)
+        "sources_synced": ["Redivis API (columbia.redivis.com)", "CLIO 965DataGate API", "Springshare Libguides API"],
+        "items_synced": synced_count,
+        "total_datasets_now": len(existing_ds),
+        "redivis_sample": redivis_datasets[:2]
     })
 
 @app.route("/api/admin/cypher", methods=["POST"])
