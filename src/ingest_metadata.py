@@ -29,7 +29,8 @@ def mock_ingest_clio():
             "platform": "CLIO Catalog",
             "access_level": "Columbia-Licensed",
             "index_key": "965DataGate",
-            "manager": "RDS Librarian"
+            "manager": "RDS Librarian",
+            "language": "English"
         },
         {
             "id": "clio_965_polls",
@@ -38,7 +39,8 @@ def mock_ingest_clio():
             "platform": "CLIO Catalog",
             "access_level": "Columbia-Licensed",
             "index_key": "965DataGate",
-            "manager": "RDS Librarian"
+            "manager": "RDS Librarian",
+            "language": "English"
         },
         {
             "id": "clio_965_elections",
@@ -47,7 +49,8 @@ def mock_ingest_clio():
             "platform": "CLIO Catalog",
             "access_level": "Columbia-Licensed",
             "index_key": "965DataGate",
-            "manager": "RDS Librarian"
+            "manager": "RDS Librarian",
+            "language": "English"
         },
         {
             "id": "open_nasa_climate",
@@ -55,15 +58,41 @@ def mock_ingest_clio():
             "description": "Open source satellite observations, atmosphere, and climate datasets from NASA. Note: Open source datasets do not have CLIO catalog records.",
             "platform": "Open Source Repository",
             "access_level": "Open Access",
-            "manager": "Open NASA Portal"
+            "manager": "Open NASA Portal",
+            "language": "English"
         },
         {
-            "id": "open_census_public",
-            "title": "US Census Bureau Public Decennial & ACS Datasets",
-            "description": "Open source public US Census Bureau demographic data tables. Note: Open source datasets do not have standard CLIO catalog records.",
-            "platform": "Open Source Repository",
+            "id": "open_amazon_biodiversity",
+            "title": "Amazon Rainforest Climate & Biodiversity Corpus (AI CoP)",
+            "description": "Multilingual complex research dataset on climate models, deforestation, and Amazon rainforest ecosystem biodiversity.",
+            "platform": "CLIO AI Enhanced Repository",
+            "access_level": "Columbia-Licensed",
+            "manager": "Environmental Science Library & AI CoP",
+            "language": "Portuguese / English",
+            "upvotes": 14,
+            "downvotes": 0
+        },
+        {
+            "id": "open_barrier_reef",
+            "title": "Great Barrier Reef Environmental Chemistry Collection (AI CoP)",
+            "description": "Interdisciplinary environmental chemistry research on ocean acidification, coral reef bleaching, and Great Barrier Reef conservation efforts.",
+            "platform": "CLIO AI Enhanced Repository",
             "access_level": "Open Access",
-            "manager": "US Census Bureau"
+            "manager": "Chemistry & Earth Sciences Library",
+            "language": "English",
+            "upvotes": 22,
+            "downvotes": 1
+        },
+        {
+            "id": "clio_multilingual_global",
+            "title": "Multilingual Global Academic Literature Corpus (AI CoP)",
+            "description": "Cross-lingual academic literature collection across French, Spanish, German, Portuguese, and Chinese for automated translation search.",
+            "platform": "CLIO AI Enhanced Repository",
+            "access_level": "Columbia-Licensed",
+            "manager": "Global Studies Librarian & CUIT AI",
+            "language": "Multilingual (FR/ES/DE/ZH/PT)",
+            "upvotes": 18,
+            "downvotes": 0
         }
     ]
     for ds in clio_datasets:
@@ -71,7 +100,7 @@ def mock_ingest_clio():
     return clio_datasets
 
 def mock_ingest_redivis():
-    """Ingest Columbia Data Platform (Redivis) datasets including restricted HCUP, L2, IPUMS, CIESIN, and Eric/Moacir collections."""
+    """Ingest Columbia Data Platform (Redivis) datasets."""
     logger.info("Ingesting from Redivis / Columbia Data Platform (CDP)...")
     redivis_datasets = [
         {
@@ -82,6 +111,7 @@ def mock_ingest_redivis():
             "access_level": "Restricted",
             "manager": "Jeremiah",
             "url": "https://columbia.redivis.com/cul_hcup",
+            "language": "English",
             "project_permissions": ["Restricted Access", "DUA Required", "Jeremiah Custodian Approval"]
         },
         {
@@ -92,6 +122,7 @@ def mock_ingest_redivis():
             "access_level": "Restricted",
             "manager": "Jeremiah & Ashley (CPRC / CUIT)",
             "url": "https://columbia.redivis.com/CPRC/datasets",
+            "language": "English",
             "project_permissions": ["CPRC Approval Required", "Restricted Microdata DUA"]
         },
         {
@@ -102,6 +133,7 @@ def mock_ingest_redivis():
             "access_level": "Restricted",
             "manager": "Jeremiah & Ashley (CPRC / CUIT)",
             "url": "https://usa.ipums.org/usa/full_count/restricted_full_count.shtml",
+            "language": "English",
             "project_permissions": ["IPUMS Authorization Required", "CPRC Data Engineer Review"]
         },
         {
@@ -111,6 +143,7 @@ def mock_ingest_redivis():
             "platform": "Redivis (Columbia Data Platform)",
             "access_level": "Columbia-Licensed",
             "manager": "RDS Librarian & CIESIN",
+            "language": "English",
             "url": "https://ciesin.columbia.edu/content/data"
         },
         {
@@ -120,6 +153,7 @@ def mock_ingest_redivis():
             "platform": "Redivis (Columbia Data Platform)",
             "access_level": "Columbia-Licensed",
             "manager": "Eric",
+            "language": "English",
             "url": "https://columbia.redivis.com/geospatial"
         },
         {
@@ -129,6 +163,7 @@ def mock_ingest_redivis():
             "platform": "Redivis (Columbia Data Platform)",
             "access_level": "Columbia-Licensed",
             "manager": "Moacir",
+            "language": "Multilingual",
             "url": "https://columbia.redivis.com/linguistics"
         }
     ]
@@ -137,7 +172,7 @@ def mock_ingest_redivis():
     return redivis_datasets
 
 def mock_ingest_libguides():
-    """Ingest all RDS & Subject Specialist Libguides mentioned in Columbia Library prompt."""
+    """Ingest RDS & Subject Specialist Libguides."""
     logger.info("Ingesting from Libguides (RDS & Subject Guides)...")
     libguides = [
         {
@@ -146,6 +181,7 @@ def mock_ingest_libguides():
             "description": "Contains 'Data of the Earth' section for SIPA's MPA-ESP program, linking to Columbia CIESIN data catalog.",
             "program": "SIPA MPA-ESP",
             "url": "https://guides.library.columbia.edu/internationaldata",
+            "language": "English",
             "key_sections": ["Data of the Earth", "Columbia CIESIN Data Catalog"]
         },
         {
@@ -154,6 +190,7 @@ def mock_ingest_libguides():
             "description": "Features two bio-stats books by Rafael A. Irizarry under the 'R' tab, specifically for Medical Campus R users.",
             "program": "Medical Campus",
             "url": "https://guides.library.columbia.edu/datatools/r",
+            "language": "English",
             "key_sections": ["R Tab", "Rafael A. Irizarry Bio-Stats"]
         },
         {
@@ -161,42 +198,48 @@ def mock_ingest_libguides():
             "title": "Numeric Data Collection Guide",
             "description": "Curated index of Columbia licensed numeric datasets searchable in CLIO via '965DataGate' and migrating to Redivis CDP.",
             "program": "Research Data Services (RDS)",
-            "url": "https://guides.library.columbia.edu/numeric/home"
+            "url": "https://guides.library.columbia.edu/numeric/home",
+            "language": "English"
         },
         {
             "id": "lg_opinion_poll",
             "title": "Public Opinion Poll Data Guide",
             "description": "Curated guide for public opinion polling data collections, survey archives, and electoral sentiment datasets.",
             "program": "Political Science & RDS",
-            "url": "https://guides.library.columbia.edu/opinionpolldata"
+            "url": "https://guides.library.columbia.edu/opinionpolldata",
+            "language": "English"
         },
         {
             "id": "lg_election_data",
             "title": "Election Data Guide",
             "description": "Guides election data discovery, including L2 voter microdata and IPUMS restricted access decennial census datasets.",
             "program": "Political Science & CPRC",
-            "url": "https://guides.library.columbia.edu/ElectionData/"
+            "url": "https://guides.library.columbia.edu/ElectionData/",
+            "language": "English"
         },
         {
             "id": "lg_subject_data_research",
             "title": "Data for Research Subject Guide",
             "description": "Master subject guide for data management, repository storage, and research data instructions.",
             "program": "Research Data Services (RDS)",
-            "url": "https://library.columbia.edu/services/subject-guides.html#data"
+            "url": "https://library.columbia.edu/services/subject-guides.html#data",
+            "language": "English"
         },
         {
             "id": "lg_subject_business",
             "title": "Business Data Subject Guide",
             "description": "Discipline-oriented business, finance, corporate, and market data guide created by Business Librarians.",
             "program": "Business School",
-            "url": "https://library.columbia.edu/services/subject-guides.html#business"
+            "url": "https://library.columbia.edu/services/subject-guides.html#business",
+            "language": "English"
         },
         {
             "id": "lg_subject_math_stats",
             "title": "Math & Statistics Subject Guide",
             "description": "Discipline-oriented mathematics, statistical computing, and quantitative data guide.",
             "program": "Math & Statistics Department",
-            "url": "https://library.columbia.edu/services/subject-guides.html#math-statistics"
+            "url": "https://library.columbia.edu/services/subject-guides.html#math-statistics",
+            "language": "English"
         }
     ]
     for lg in libguides:
@@ -204,7 +247,7 @@ def mock_ingest_libguides():
     return libguides
 
 if __name__ == "__main__":
-    logger.info("Starting Complete Columbia Library Knowledge Graph Ingestion Pipeline")
+    logger.info("Starting Complete Columbia Library Knowledge Graph Ingestion Pipeline (AI CoP Enhanced)")
     datasets = mock_ingest_clio() + mock_ingest_redivis()
     libguides = mock_ingest_libguides()
 

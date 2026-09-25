@@ -1,6 +1,7 @@
-// Columbia Library Data Graph Application Controller
+// Columbia Library Data Graph Application Controller (AI CoP Architecture)
 
 let currentRole = 'user';
+let currentComputeMode = 'Cloud LLM (OpenAI GPT-4 / AWS Bedrock)';
 let graphSimulation = null;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,6 +36,21 @@ function switchRole(role) {
   }
 }
 
+// Compute Engine Switcher (AI CoP Feature)
+async function switchComputeMode(mode) {
+  currentComputeMode = mode;
+  try {
+    await fetch('/api/compute', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode })
+    });
+    console.log(`Switched compute engine to: ${mode}`);
+  } catch (err) {
+    console.error("Failed to switch compute mode", err);
+  }
+}
+
 // Admin Tab Switching
 function switchAdminTab(tabId) {
   document.querySelectorAll('.admin-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -58,7 +74,9 @@ async function fetchStats() {
     document.getElementById('stat-datasets').innerText = data.total_datasets || 0;
     document.getElementById('stat-libguides').innerText = data.total_libguides || 0;
     document.getElementById('stat-restricted').innerText = data.restricted_datasets || 0;
-    document.getElementById('stat-platforms').innerText = (data.platforms || []).length;
+    if (data.compute_mode) {
+      document.getElementById('compute-select').value = data.compute_mode;
+    }
   } catch (err) {
     console.error("Failed to fetch stats", err);
   }
@@ -67,17 +85,18 @@ async function fetchStats() {
 // Execute GraphRAG Search Query
 async function executeSearch() {
   const query = document.getElementById('search-input').value.trim();
+  const language = document.getElementById('search-language').value;
   if (!query) return;
 
   const container = document.getElementById('results-container');
   const statusEl = document.getElementById('search-status');
-  statusEl.innerText = "Searching Vector & Neptune Graph...";
+  statusEl.innerText = `Searching (${language})...`;
   statusEl.style.color = "#06b6d4";
 
   container.innerHTML = `
     <div class="placeholder-state">
       <i class="fa-solid fa-spinner fa-spin"></i>
-      <p>Encoding query vector and traversing AWS Neptune OpenCypher graph...</p>
+      <p>Executing vector search, ${language} multilingual processing, and AWS Neptune graph traversal...</p>
     </div>
   `;
 
@@ -85,11 +104,11 @@ async function executeSearch() {
     const res = await fetch('/api/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query })
+      body: JSON.stringify({ query, language })
     });
 
     const data = await res.json();
-    statusEl.innerText = "Completed";
+    statusEl.innerText = `Completed [${data.compute_mode || 'AI Eng'}]`;
     statusEl.style.color = "#10b981";
 
     renderSearchResults(data);
@@ -99,6 +118,61 @@ async function executeSearch() {
     statusEl.style.color = "#ef4444";
     container.innerHTML = `<div class="agent-alert restricted">Failed to execute discovery search. Server error.</div>`;
   }
+}
+
+// User Feedback Loop Handler (RLHF Upvote / Downvote)
+async function sendFeedback(itemId, voteType) {
+  try {
+    const res = await fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: itemId, vote: voteType })
+    });
+    const data = await res.json();
+    
+    // Update upvote button count UI
+    const btn = document.getElementById(`upvote-btn-${itemId}`);
+    if (btn && data.upvotes !== undefined) {
+      btn.innerHTML = `<i class="fa-solid fa-thumbs-up" style="color: var(--success-emerald);"></i> Helpful (${data.upvotes})`;
+    }
+  } catch (err) {
+    console.error("Feedback error", err);
+  }
+}
+
+// AI Summary Modal Opener (AI CoP Feature)
+async function openAISummary(title, description) {
+  const modal = document.getElementById('ai-summary-modal');
+  const query = document.getElementById('search-input').value;
+
+  document.getElementById('ai-summary-title').innerText = title;
+  document.getElementById('ai-summary-engine').innerText = `Generated via: ${currentComputeMode}`;
+  document.getElementById('ai-summary-text').innerText = "Generating AI synthesis and usage recommendations...";
+
+  modal.classList.add('active');
+
+  try {
+    const res = await fetch('/api/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, description, query })
+    });
+
+    const data = await res.json();
+    document.getElementById('ai-summary-text').innerText = data.ai_summary;
+    
+    const list = document.getElementById('ai-recommendations-list');
+    list.innerHTML = '';
+    (data.usage_recommendations || []).forEach(rec => {
+      list.innerHTML += `<li>${rec}</li>`;
+    });
+  } catch (err) {
+    document.getElementById('ai-summary-text').innerText = "Failed to generate AI synthesis.";
+  }
+}
+
+function closeAISummary() {
+  document.getElementById('ai-summary-modal').classList.remove('active');
 }
 
 // Render Search Results Cards
@@ -112,7 +186,6 @@ function renderSearchResults(data) {
     return;
   }
 
-  // Top Match Card
   const isDataset = topMatch.type === 'Dataset';
   const isRestricted = topMatch.access_level === 'Restricted';
 
@@ -122,7 +195,7 @@ function renderSearchResults(data) {
       alertMarkup = `
         <div class="agent-alert restricted">
           <strong><i class="fa-solid fa-triangle-exclamation"></i> AGENT ALERT: RESTRICTED ACCESS DATASET</strong>
-          <span>This dataset is hosted on <strong>${topMatch.platform}</strong> and is excluded from standard CLIO searches.</span>
+          <span>Hosted on <strong>${topMatch.platform}</strong>. Excluded from default CLIO catalog search.</span>
           <span>👉 <strong>Action Required:</strong> Contact custodian <strong>${topMatch.manager || 'Data Manager'}</strong> to request credentials on Redivis.</span>
         </div>
       `;
@@ -154,6 +227,22 @@ function renderSearchResults(data) {
       <p class="match-desc">${topMatch.description}</p>
       ${alertMarkup}
       ${cypherQuery ? `<div class="cypher-box"><strong>AWS Neptune Cypher Traversal:</strong><br>${cypherQuery}</div>` : ''}
+
+      <!-- AI CoP Actions Toolbar -->
+      <div class="card-actions">
+        <div class="feedback-buttons">
+          <button id="upvote-btn-${topMatch.id}" class="vote-btn" onclick="sendFeedback('${topMatch.id}', 'upvote')">
+            <i class="fa-solid fa-thumbs-up"></i> Helpful (${topMatch.upvotes || 0})
+          </button>
+          <button class="vote-btn" onclick="sendFeedback('${topMatch.id}', 'downvote')">
+            <i class="fa-solid fa-thumbs-down"></i>
+          </button>
+        </div>
+
+        <button class="btn btn-sm btn-accent" onclick="openAISummary('${topMatch.title.replace(/'/g, "\\'")}', '${topMatch.description.replace(/'/g, "\\'")}')">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> AI Synthesis & Guidelines
+        </button>
+      </div>
     </div>
   `;
 
@@ -170,7 +259,12 @@ function renderSearchResults(data) {
             <div class="match-title" style="font-size: 0.95rem;">[${item.type}] ${item.title}</div>
             <span class="score-badge" style="font-size: 0.7rem;">${(item.score * 100).toFixed(1)}%</span>
           </div>
-          <p class="match-desc" style="font-size: 0.8rem; margin: 0;">${item.description}</p>
+          <p class="match-desc" style="font-size: 0.8rem; margin: 0.25rem 0;">${item.description}</p>
+          <div style="display: flex; justify-content: flex-end; margin-top: 0.4rem;">
+            <button class="btn btn-sm btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="openAISummary('${item.title.replace(/'/g, "\\'")}', '${item.description.replace(/'/g, "\\'")}')">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> AI Summary
+            </button>
+          </div>
         </div>
       `);
     });
@@ -199,17 +293,15 @@ function renderD3Graph(nodes, edges) {
 
   const g = svg.append("g");
 
-  // Zoom behavior
   svg.call(d3.zoom().on("zoom", (event) => {
     g.attr("transform", event.transform);
   }));
 
   const simulation = d3.forceSimulation(nodes)
     .force("link", d3.forceLink(edges).id(d => d.id).distance(100))
-    .force("charge", d3.forceManyBody().strength(-250))
+    .force("charge", d3.forceManyBody().strength(-220))
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-  // Draw Edges
   const link = g.append("g")
     .selectAll("line")
     .data(edges)
@@ -217,7 +309,6 @@ function renderD3Graph(nodes, edges) {
     .attr("stroke", "rgba(255,255,255,0.15)")
     .attr("stroke-width", 1.5);
 
-  // Draw Nodes
   const node = g.append("g")
     .selectAll("circle")
     .data(nodes)
@@ -233,7 +324,6 @@ function renderD3Graph(nodes, edges) {
     .attr("stroke-width", 1.5)
     .call(drag(simulation));
 
-  // Node Labels
   const labels = g.append("g")
     .selectAll("text")
     .data(nodes)
@@ -294,7 +384,7 @@ async function loadAdminDatasets() {
     const datasets = await res.json();
     tbody.innerHTML = '';
     if (datasets.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" class="text-center">No datasets in graph.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center">No datasets in graph.</td></tr>`;
       return;
     }
     datasets.forEach(ds => {
@@ -305,6 +395,7 @@ async function loadAdminDatasets() {
           <td><span class="badge badge-accent">${ds.platform || 'CLIO'}</span></td>
           <td><span class="badge ${ds.access_level === 'Restricted' ? 'badge-warning' : 'badge-success'}">${ds.access_level}</span></td>
           <td>${ds.manager || 'N/A'}</td>
+          <td>${ds.language || 'English'}</td>
           <td>
             <button class="btn btn-sm btn-danger" onclick="deleteDataset('${ds.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
           </td>
@@ -312,7 +403,7 @@ async function loadAdminDatasets() {
       `;
     });
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Failed to load datasets.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Failed to load datasets.</td></tr>`;
   }
 }
 
@@ -364,7 +455,7 @@ async function deleteLibguide(id) {
 // Live Ingestion Sync Trigger
 async function triggerLiveIngest() {
   const logEl = document.getElementById('ingest-log-output');
-  logEl.innerText = "Triggering live API connectors (CLIO 965DataGate API, Redivis API, Springshare Libguides API)...\nBuilding vector embeddings...";
+  logEl.innerText = "Triggering live API connectors (Redivis API, CLIO AI Repository, Springshare API)...\nBuilding vector embeddings...";
 
   try {
     const res = await fetch('/api/admin/ingest', { method: 'POST' });

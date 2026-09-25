@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Columbia Library Data Graph | Agentic Discovery & Knowledge Portal</title>
+  <title>Columbia Library Data Graph | Agentic AI Discovery & Knowledge Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -21,11 +21,20 @@
         </div>
         <div class="brand-text">
           <h1>Columbia Library <span>Data Graph</span></h1>
-          <p class="subtitle">Agentic Knowledge Graph & Discovery Platform (AutoClimDS Architecture)</p>
+          <p class="subtitle">AI Community of Practice | GraphRAG & LLM Discovery Engine</p>
         </div>
       </div>
 
       <div class="header-right">
+        <!-- Compute Mode Selector (AI CoP Local Compute vs Cloud LLM) -->
+        <div class="compute-selector">
+          <label for="compute-select"><i class="fa-solid fa-microchip"></i> Compute Engine:</label>
+          <select id="compute-select" onchange="switchComputeMode(this.value)">
+            <option value="Cloud LLM (OpenAI GPT-4 / AWS Bedrock)">Cloud LLM (GPT-4 / Bedrock)</option>
+            <option value="Local Compute LLM (Ollama / Llama 3)">Local Compute (Llama 3 / Ollama)</option>
+          </select>
+        </div>
+
         <!-- System Health Badges -->
         <div class="status-badges">
           <span class="badge badge-pulse"><i class="fa-solid fa-server"></i> AWS Neptune Online</span>
@@ -73,22 +82,34 @@
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon accent"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="stat-icon accent"><i class="fa-solid fa-globe"></i></div>
             <div class="stat-info">
-              <h3 id="stat-platforms">--</h3>
-              <p>Host Platforms</p>
+              <h3>Multilingual</h3>
+              <p>EN / ES / PT / FR / DE / ZH</p>
             </div>
           </div>
         </div>
 
         <!-- Search Bar Hero -->
         <div class="search-hero">
-          <h2>Semantic Data & Resource Discovery</h2>
-          <p>Search across CLIO, Redivis, and Libguides with natural language queries.</p>
+          <h2>Semantic Multilingual Data & Resource Discovery</h2>
+          <p>Powered by GraphRAG, Cosine Vector Search, and Interactive User Feedback (AI CoP Architecture).</p>
 
           <form id="search-form" class="search-box">
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="search-input" placeholder="e.g. 'I need voter data for an election project' or 'medical bio-stats in R'..." required>
+            <input type="text" id="search-input" placeholder="e.g. 'Amazon rainforest climate models and biodiversity' or 'Great Barrier Reef conservation'..." required>
+            
+            <div class="language-dropdown">
+              <select id="search-language">
+                <option value="English">🌐 English</option>
+                <option value="Spanish">🌐 Spanish (Español)</option>
+                <option value="Portuguese">🌐 Portuguese (Português)</option>
+                <option value="French">🌐 French (Français)</option>
+                <option value="Chinese">🌐 Chinese (中文)</option>
+                <option value="German">🌐 German (Deutsch)</option>
+              </select>
+            </div>
+
             <button type="submit" class="btn btn-primary">
               <span>Search Graph</span> <i class="fa-solid fa-arrow-right"></i>
             </button>
@@ -96,18 +117,21 @@
 
           <!-- Prompt Chip Suggestions -->
           <div class="prompt-chips">
-            <span class="chip-label">Try asking:</span>
-            <button class="chip" onclick="setQuery('I need voter data for an election project.')">
-              <i class="fa-solid fa-check-to-slot"></i> Voter Election Data
+            <span class="chip-label">Try AI CoP Queries:</span>
+            <button class="chip" onclick="setQuery('Amazon rainforest climate models and biodiversity in South America')">
+              <i class="fa-solid fa-tree"></i> Amazon Climate & Biodiversity
             </button>
-            <button class="chip" onclick="setQuery('Looking for medical bio-stats tools in R.')">
-              <i class="fa-solid fa-stethoscope"></i> Medical Bio-Stats in R
+            <button class="chip" onclick="setQuery('Great Barrier Reef environmental chemistry ocean acidification')">
+              <i class="fa-solid fa-water"></i> Great Barrier Reef Chemistry
             </button>
-            <button class="chip" onclick="setQuery('Public opinion poll data 2020 election')">
-              <i class="fa-solid fa-poll"></i> 2020 Polling Data
+            <button class="chip" onclick="setQuery('Where can I find IPUMS census microdata for 1790 to 1950?')">
+              <i class="fa-solid fa-users"></i> IPUMS Census (1790-1950)
             </button>
-            <button class="chip" onclick="setQuery('International SIPA data and CIESIN earth datasets')">
-              <i class="fa-solid fa-globe"></i> SIPA International Data
+            <button class="chip" onclick="setQuery('SIPA MPA-ESP data of the earth and CIESIN catalog')">
+              <i class="fa-solid fa-earth-americas"></i> SIPA CIESIN Data
+            </button>
+            <button class="chip" onclick="setQuery('Bio-stats books by Rafael Irizarry under R tab for medical campus')">
+              <i class="fa-solid fa-stethoscope"></i> Bio-Stats in R (Irizarry)
             </button>
           </div>
         </div>
@@ -117,14 +141,14 @@
           <!-- Left: Match Results & Agent Routing Instructions -->
           <div class="results-panel">
             <div class="panel-header">
-              <h3><i class="fa-solid fa-list-check"></i> Agent Search Results & Policy Routing</h3>
+              <h3><i class="fa-solid fa-list-check"></i> Agent Search Results & RLHF Feedback Loop</h3>
               <span id="search-status" class="status-indicator">Ready</span>
             </div>
             
             <div id="results-container" class="results-container">
               <div class="placeholder-state">
                 <i class="fa-solid fa-magnifying-glass-location"></i>
-                <p>Enter a query above to execute vector search and AWS Neptune graph traversal.</p>
+                <p>Enter a query above to execute vector search, multilingual translation, and AWS Neptune graph traversal.</p>
               </div>
             </div>
           </div>
@@ -187,11 +211,12 @@
                   <th>Platform</th>
                   <th>Access Level</th>
                   <th>Manager / Librarian</th>
+                  <th>Language</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="admin-datasets-tbody">
-                <tr><td colspan="6" class="text-center">Loading datasets...</td></tr>
+                <tr><td colspan="7" class="text-center">Loading datasets...</td></tr>
               </tbody>
             </table>
           </div>
@@ -243,8 +268,8 @@ RETURN d.title, d.access_level, p.name AS platform, s.name AS manager;</textarea
             <div class="connector-card">
               <div class="connector-icon clio"><i class="fa-solid fa-building-columns"></i></div>
               <div class="connector-body">
-                <h3>CLIO 965DataGate API Connector</h3>
-                <p>Ingests licensed catalog datasets, MARC metadata records, and Columbia UNI authentication scopes.</p>
+                <h3>CLIO AI Enhanced API Connector</h3>
+                <p>Ingests catalog datasets, MARC metadata, and AI Community of Practice research corpora.</p>
                 <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Connected & Synced</span>
               </div>
             </div>
@@ -252,7 +277,7 @@ RETURN d.title, d.access_level, p.name AS platform, s.name AS manager;</textarea
               <div class="connector-icon redivis"><i class="fa-solid fa-shield-halved"></i></div>
               <div class="connector-body">
                 <h3>Redivis (Columbia Data Platform) API</h3>
-                <p>Tracks restricted datasets (HCUP, L2 Voter Data, IPUMS), project permissions, and data custodian contacts.</p>
+                <p>Tracks restricted datasets (HCUP, L2 Voter Data, IPUMS), project permissions, and custodians.</p>
                 <span class="badge badge-warning"><i class="fa-solid fa-lock"></i> Restricted Access Sync</span>
               </div>
             </div>
@@ -302,9 +327,10 @@ RETURN d.title, d.access_level, p.name AS platform, s.name AS manager;</textarea
               <div class="form-group">
                 <label for="modal-input-platform">Platform</label>
                 <select id="modal-input-platform">
-                  <option value="CLIO">CLIO Catalog</option>
-                  <option value="Redivis">Redivis (Columbia Data Platform)</option>
-                  <option value="External">External Repository</option>
+                  <option value="CLIO Catalog">CLIO Catalog</option>
+                  <option value="CLIO AI Enhanced Repository">CLIO AI Enhanced Repository</option>
+                  <option value="Redivis (Columbia Data Platform)">Redivis (Columbia Data Platform)</option>
+                  <option value="Open Source Repository">Open Source Repository</option>
                 </select>
               </div>
               <div class="form-group">
@@ -312,14 +338,14 @@ RETURN d.title, d.access_level, p.name AS platform, s.name AS manager;</textarea
                 <select id="modal-input-access">
                   <option value="Columbia-Licensed">Columbia-Licensed</option>
                   <option value="Restricted">Restricted (Contact Custodian)</option>
-                  <option value="Open">Open Access</option>
+                  <option value="Open Access">Open Access</option>
                 </select>
               </div>
             </div>
 
             <div class="form-group">
               <label for="modal-input-manager">Subject Specialist / Data Manager</label>
-              <input type="text" id="modal-input-manager" placeholder="e.g. Jeremiah, RDS Librarian...">
+              <input type="text" id="modal-input-manager" placeholder="e.g. Jeremiah, Eric, Moacir, Ashley...">
             </div>
           </div>
 
@@ -335,6 +361,35 @@ RETURN d.title, d.access_level, p.name AS platform, s.name AS manager;</textarea
             <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save & Re-Embed Node</button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- AI Summary Drawer / Modal (AI CoP Feature) -->
+    <div id="ai-summary-modal" class="modal-backdrop">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent-cyan);"></i> AI-Assisted Research Synthesis & Usage Guidelines</h3>
+          <button class="modal-close" onclick="closeAISummary()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h4 id="ai-summary-title" style="color: #fff; margin-bottom: 0.5rem;">Resource Title</h4>
+          <p id="ai-summary-engine" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;"><i class="fa-solid fa-microchip"></i> Generated via: Cloud LLM (OpenAI GPT-4)</p>
+
+          <div class="summary-box" style="background: rgba(0,0,0,0.4); padding: 1rem; border-radius: 10px; border: 1px solid var(--border-glass); margin-bottom: 1rem;">
+            <strong style="color: var(--accent-cyan); display: block; margin-bottom: 0.4rem;">AI Semantic Summary:</strong>
+            <p id="ai-summary-text" style="font-size: 0.9rem; color: var(--text-main);">Loading AI synthesis...</p>
+          </div>
+
+          <div class="recommendations-box">
+            <strong style="color: var(--success-emerald); display: block; margin-bottom: 0.4rem;"><i class="fa-solid fa-check-double"></i> Recommended Academic Usage:</strong>
+            <ul id="ai-recommendations-list" style="padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-muted);">
+              <li>Processing research parameters...</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="closeAISummary()">Close Summary</button>
+        </div>
       </div>
     </div>
 

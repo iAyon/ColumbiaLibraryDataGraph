@@ -106,6 +106,29 @@ body {
   gap: 1.5rem;
 }
 
+/* Compute Mode Selector */
+.compute-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.35rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-glass);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.compute-selector select {
+  background: transparent;
+  border: none;
+  color: var(--accent-cyan);
+  font-weight: 600;
+  font-size: 0.8rem;
+  outline: none;
+  cursor: pointer;
+}
+
 .status-badges {
   display: flex;
   gap: 0.75rem;
@@ -264,11 +287,12 @@ body {
 }
 
 .search-box {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   position: relative;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .search-icon {
@@ -276,10 +300,11 @@ body {
   left: 1.25rem;
   color: var(--text-dim);
   font-size: 1.1rem;
+  z-index: 2;
 }
 
 .search-box input {
-  width: 100%;
+  flex: 1;
   padding: 1.1rem 1rem 1.1rem 3.25rem;
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid var(--border-glass);
@@ -295,9 +320,16 @@ body {
   box-shadow: 0 0 20px var(--primary-glow);
 }
 
-.search-box button {
-  position: absolute;
-  right: 0.5rem;
+.language-dropdown select {
+  padding: 1rem 0.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  color: var(--accent-cyan);
+  font-weight: 600;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
 }
 
 /* Buttons */
@@ -365,7 +397,7 @@ body {
 /* Discovery Grid */
 .discovery-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 1.5rem;
 }
 
@@ -473,6 +505,38 @@ body {
   color: var(--text-muted);
   margin-bottom: 0.75rem;
 }
+
+/* Card Action Toolbar (AI CoP Feedback + AI Synthesis) */
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-glass);
+}
+
+.feedback-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vote-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.vote-btn:hover { background: rgba(99, 102, 241, 0.2); color: #fff; }
 
 /* Alert Box inside Card */
 .agent-alert {
@@ -725,7 +789,7 @@ body {
   border: 1px solid var(--border-glass);
   border-radius: 20px;
   width: 100%;
-  max-width: 540px;
+  max-width: 580px;
   padding: 1.75rem;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
