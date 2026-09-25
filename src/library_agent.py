@@ -1,6 +1,11 @@
 import json
+import sys
 import numpy as np
 from sentence_transformers import SentenceTransformer
+
+# Ensure stdout supports UTF-8 characters (emojis) across environments
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 
 # Load the same embedding model
 EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
