@@ -1,0 +1,6 @@
+:START_ID,:END_ID,:TYPE
+clio_123,platform_clio,HOSTED_ON
+cdp_hcup,platform_redivis,HOSTED_ON
+cdp_hcup,spec_jeremiah,MANAGED_BY
+cdp_l2,platform_redivis,HOSTED_ON
+cdp_l2,spec_jeremiah,MANAGED_BY

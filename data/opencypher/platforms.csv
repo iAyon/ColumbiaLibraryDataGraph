@@ -1,0 +1,3 @@
+id:ID,name:string,:LABEL
+platform_clio,CLIO,Platform
+platform_redivis,Redivis,Platform

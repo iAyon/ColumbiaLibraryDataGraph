@@ -1,0 +1,4 @@
+id:ID,title:string,description:string,platform:string,access_level:string,manager:string,:LABEL
+clio_123,Public Opinion Poll Data 2020,Licensed public opinion polling data for the 2020 election cycle.,CLIO,Columbia-Licensed,,Dataset
+cdp_hcup,HCUP Healthcare Cost and Utilization Project,Restricted access medical campus and department data.,Redivis,Restricted,Jeremiah,Dataset
+cdp_l2,L2 Voter Data,Micro-level election voter data managed by the Population Research Center.,Redivis,Restricted,Jeremiah,Dataset
