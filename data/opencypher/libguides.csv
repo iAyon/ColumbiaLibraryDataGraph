@@ -1,5 +1,9 @@
 id:ID,title:string,description:string,program:string,:LABEL
-lg_international_sipa,International Data Guide,"Features 'Data of the Earth' section for SIPA's MPA-ESP program, including the Columbia CIESIN data catalog.",SIPA MPA-ESP,Libguide
-lg_datatools_med,Data Analysis Tools Guide,"Includes two bio-stats books by Rafael A. Irizarry under the 'R' tab, tailored for Medical Campus R users.",Medical Campus,Libguide
-lg_numeric_data,Numeric Data Collection Guide,Index of Columbia licensed datasets searchable in CLIO via 965DataGate and migrating to Redivis CDP.,Research Data Services (RDS),Libguide
-lg_election_opinion,Public Opinion Poll & Election Data Guide,"Covers polling data, CPRC election voter data (L2), and IPUMS restricted access census datasets.",Political Science & CPRC,Libguide
+lg_international_sipa,International Data Guide,"Contains 'Data of the Earth' section for SIPA's MPA-ESP program, linking to Columbia CIESIN data catalog.",SIPA MPA-ESP,Libguide
+lg_datatools_med,Data Analysis Tools Guide,"Features two bio-stats books by Rafael A. Irizarry under the 'R' tab, specifically for Medical Campus R users.",Medical Campus,Libguide
+lg_numeric_data,Numeric Data Collection Guide,Curated index of Columbia licensed numeric datasets searchable in CLIO via '965DataGate' and migrating to Redivis CDP.,Research Data Services (RDS),Libguide
+lg_opinion_poll,Public Opinion Poll Data Guide,"Curated guide for public opinion polling data collections, survey archives, and electoral sentiment datasets.",Political Science & RDS,Libguide
+lg_election_data,Election Data Guide,"Guides election data discovery, including L2 voter microdata and IPUMS restricted access decennial census datasets.",Political Science & CPRC,Libguide
+lg_subject_data_research,Data for Research Subject Guide,"Master subject guide for data management, repository storage, and research data instructions.",Research Data Services (RDS),Libguide
+lg_subject_business,Business Data Subject Guide,"Discipline-oriented business, finance, corporate, and market data guide created by Business Librarians.",Business School,Libguide
+lg_subject_math_stats,Math & Statistics Subject Guide,"Discipline-oriented mathematics, statistical computing, and quantitative data guide.",Math & Statistics Department,Libguide

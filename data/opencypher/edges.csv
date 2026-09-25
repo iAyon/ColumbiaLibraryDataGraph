@@ -1,13 +1,22 @@
 :START_ID,:END_ID,:TYPE
-clio_965_poll2020,platform_clio_catalog,HOSTED_ON
 clio_965_numeric,platform_clio_catalog,HOSTED_ON
-open_nasa_earth,platform_open_source_repository,HOSTED_ON
+clio_965_numeric,spec_rds librarian,MANAGED_BY
+clio_965_polls,platform_clio_catalog,HOSTED_ON
+clio_965_polls,spec_rds librarian,MANAGED_BY
+clio_965_elections,platform_clio_catalog,HOSTED_ON
+clio_965_elections,spec_rds librarian,MANAGED_BY
+open_nasa_climate,platform_open_source_repository,HOSTED_ON
+open_nasa_climate,spec_open nasa portal,MANAGED_BY
+open_census_public,platform_open_source_repository,HOSTED_ON
+open_census_public,spec_us census bureau,MANAGED_BY
 cdp_hcup,platform_redivis_(columbia_data_platform),HOSTED_ON
 cdp_hcup,spec_jeremiah,MANAGED_BY
 cdp_l2_voter,platform_redivis_(columbia_data_platform),HOSTED_ON
 cdp_l2_voter,spec_jeremiah & ashley (cprc / cuit),MANAGED_BY
 cdp_ipums_census,platform_redivis_(columbia_data_platform),HOSTED_ON
 cdp_ipums_census,spec_jeremiah & ashley (cprc / cuit),MANAGED_BY
+dataset_ciesin_earth,platform_redivis_(columbia_data_platform),HOSTED_ON
+dataset_ciesin_earth,spec_rds librarian & ciesin,MANAGED_BY
 cdp_geospatial_eric,platform_redivis_(columbia_data_platform),HOSTED_ON
 cdp_geospatial_eric,spec_eric,MANAGED_BY
 cdp_text_moacir,platform_redivis_(columbia_data_platform),HOSTED_ON

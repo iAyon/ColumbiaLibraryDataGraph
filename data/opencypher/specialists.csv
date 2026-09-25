@@ -1,5 +1,9 @@
 id:ID,name:string,:LABEL
+spec_rds librarian,RDS Librarian,SubjectSpecialist
+spec_open nasa portal,Open NASA Portal,SubjectSpecialist
+spec_us census bureau,US Census Bureau,SubjectSpecialist
 spec_jeremiah,Jeremiah,SubjectSpecialist
 spec_jeremiah & ashley (cprc / cuit),Jeremiah & Ashley (CPRC / CUIT),SubjectSpecialist
+spec_rds librarian & ciesin,RDS Librarian & CIESIN,SubjectSpecialist
 spec_eric,Eric,SubjectSpecialist
 spec_moacir,Moacir,SubjectSpecialist
