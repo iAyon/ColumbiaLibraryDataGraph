@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Columbia Library Data Graph | Agentic Discovery & Knowledge Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Navigation Header -->
+    <header class="navbar">
+      <div class="brand">
+        <div class="brand-logo">
+          <i class="fa-solid fa-diagram-project"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Columbia Library <span>Data Graph</span></h1>
+          <p class="subtitle">Agentic Knowledge Graph & Discovery Platform (AutoClimDS Architecture)</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- System Health Badges -->
+        <div class="status-badges">
+          <span class="badge badge-pulse"><i class="fa-solid fa-server"></i> AWS Neptune Online</span>
+          <span class="badge badge-accent"><i class="fa-solid fa-brain"></i> BAAI/bge-small-en-v1.5</span>
+        </div>
+
+        <!-- User Role Switcher -->
+        <div class="role-switcher">
+          <button id="role-user-btn" class="role-btn active" onclick="switchRole('user')">
+            <i class="fa-solid fa-graduation-cap"></i> Student / Researcher
+          </button>
+          <button id="role-admin-btn" class="role-btn" onclick="switchRole('admin')">
+            <i class="fa-solid fa-user-shield"></i> Admin Portal
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- ==================== USER / STUDENT DISCOVERY VIEW ==================== -->
+      <section id="user-view" class="view-section active">
+        <!-- Stats Banner -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-database"></i></div>
+            <div class="stat-info">
+              <h3 id="stat-datasets">--</h3>
+              <p>Indexed Datasets</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+            <div class="stat-info">
+              <h3 id="stat-libguides">--</h3>
+              <p>Curated Libguides</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon warning"><i class="fa-solid fa-lock"></i></div>
+            <div class="stat-info">
+              <h3 id="stat-restricted">--</h3>
+              <p>Restricted (Redivis Data)</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon accent"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="stat-info">
+              <h3 id="stat-platforms">--</h3>
+              <p>Host Platforms</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Bar Hero -->
+        <div class="search-hero">
+          <h2>Semantic Data & Resource Discovery</h2>
+          <p>Search across CLIO, Redivis, and Libguides with natural language queries.</p>
+
+          <form id="search-form" class="search-box">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="search-input" placeholder="e.g. 'I need voter data for an election project' or 'medical bio-stats in R'..." required>
+            <button type="submit" class="btn btn-primary">
+              <span>Search Graph</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </form>
+
+          <!-- Prompt Chip Suggestions -->
+          <div class="prompt-chips">
+            <span class="chip-label">Try asking:</span>
+            <button class="chip" onclick="setQuery('I need voter data for an election project.')">
+              <i class="fa-solid fa-check-to-slot"></i> Voter Election Data
+            </button>
+            <button class="chip" onclick="setQuery('Looking for medical bio-stats tools in R.')">
+              <i class="fa-solid fa-stethoscope"></i> Medical Bio-Stats in R
+            </button>
+            <button class="chip" onclick="setQuery('Public opinion poll data 2020 election')">
+              <i class="fa-solid fa-poll"></i> 2020 Polling Data
+            </button>
+            <button class="chip" onclick="setQuery('International SIPA data and CIESIN earth datasets')">
+              <i class="fa-solid fa-globe"></i> SIPA International Data
+            </button>
+          </div>
+        </div>
+
+        <!-- Search Output Grid (Results + Graph Visualization) -->
+        <div class="discovery-grid">
+          <!-- Left: Match Results & Agent Routing Instructions -->
+          <div class="results-panel">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-list-check"></i> Agent Search Results & Policy Routing</h3>
+              <span id="search-status" class="status-indicator">Ready</span>
+            </div>
+            
+            <div id="results-container" class="results-container">
+              <div class="placeholder-state">
+                <i class="fa-solid fa-magnifying-glass-location"></i>
+                <p>Enter a query above to execute vector search and AWS Neptune graph traversal.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Graph Canvas (D3.js) -->
+          <div class="graph-panel">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-circle-nodes"></i> Knowledge Graph Visualizer</h3>
+              <button class="btn btn-sm btn-outline" onclick="loadGraphVisualization()"><i class="fa-solid fa-rotate-right"></i> Reset View</button>
+            </div>
+            <div id="graph-canvas-container" class="graph-canvas-container">
+              <svg id="graph-svg"></svg>
+              <div class="graph-legend">
+                <span class="legend-item"><span class="legend-color dataset"></span> Dataset</span>
+                <span class="legend-item"><span class="legend-color libguide"></span> Libguide</span>
+                <span class="legend-item"><span class="legend-color platform"></span> Platform</span>
+                <span class="legend-item"><span class="legend-color specialist"></span> Specialist</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== ADMIN PORTAL VIEW ==================== -->
+      <section id="admin-view" class="view-section">
+        <div class="admin-header-bar">
+          <div>
+            <h2><i class="fa-solid fa-user-gear"></i> Knowledge Graph Admin Portal</h2>
+            <p>Manage node metadata, trigger live API connectors, and execute Cypher graph queries.</p>
+          </div>
+          <div class="admin-actions">
+            <button class="btn btn-accent" onclick="triggerLiveIngest()">
+              <i class="fa-solid fa-cloud-arrow-down"></i> Trigger Live API Ingestion
+            </button>
+            <button class="btn btn-primary" onclick="openAddModal('dataset')">
+              <i class="fa-solid fa-plus"></i> Add New Dataset
+            </button>
+            <button class="btn btn-secondary" onclick="openAddModal('libguide')">
+              <i class="fa-solid fa-plus"></i> Add Libguide
+            </button>
+          </div>
+        </div>
+
+        <!-- Admin Tabs -->
+        <div class="admin-tabs">
+          <button class="tab-btn active" onclick="switchAdminTab('datasets-tab')"><i class="fa-solid fa-table-list"></i> Datasets Catalog</button>
+          <button class="tab-btn" onclick="switchAdminTab('libguides-tab')"><i class="fa-solid fa-book"></i> Libguides Catalog</button>
+          <button class="tab-btn" onclick="switchAdminTab('cypher-tab')"><i class="fa-solid fa-terminal"></i> Neptune Cypher Workbench</button>
+          <button class="tab-btn" onclick="switchAdminTab('connectors-tab')"><i class="fa-solid fa-plug"></i> API Connectors Sync Log</button>
+        </div>
+
+        <!-- Tab 1: Datasets Table -->
+        <div id="datasets-tab" class="tab-content active">
+          <div class="table-card">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Platform</th>
+                  <th>Access Level</th>
+                  <th>Manager / Librarian</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-datasets-tbody">
+                <tr><td colspan="6" class="text-center">Loading datasets...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 2: Libguides Table -->
+        <div id="libguides-tab" class="tab-content">
+          <div class="table-card">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Program / School</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-libguides-tbody">
+                <tr><td colspan="5" class="text-center">Loading libguides...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 3: Cypher Workbench -->
+        <div id="cypher-tab" class="tab-content">
+          <div class="cypher-workbench">
+            <div class="cypher-editor-card">
+              <div class="editor-header">
+                <h3><i class="fa-solid fa-code"></i> OpenCypher Console (AWS Neptune Query)</h3>
+                <button class="btn btn-sm btn-primary" onclick="runCypherQuery()"><i class="fa-solid fa-play"></i> Execute Query</button>
+              </div>
+              <textarea id="cypher-input" rows="6" placeholder="MATCH (d:Dataset)-[:HOSTED_ON]->(p:Platform) RETURN d.title, p.name LIMIT 10;">MATCH (d:Dataset)-[:HOSTED_ON]->(p:Platform)
+OPTIONAL MATCH (d)-[:MANAGED_BY]->(s:SubjectSpecialist)
+RETURN d.title, d.access_level, p.name AS platform, s.name AS manager;</textarea>
+            </div>
+
+            <div class="cypher-output-card">
+              <h3>Execution Results</h3>
+              <pre id="cypher-result" class="json-output">// Click 'Execute Query' to view Neptune query output...</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Connectors Sync Log -->
+        <div id="connectors-tab" class="tab-content">
+          <div class="connectors-grid">
+            <div class="connector-card">
+              <div class="connector-icon clio"><i class="fa-solid fa-building-columns"></i></div>
+              <div class="connector-body">
+                <h3>CLIO 965DataGate API Connector</h3>
+                <p>Ingests licensed catalog datasets, MARC metadata records, and Columbia UNI authentication scopes.</p>
+                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Connected & Synced</span>
+              </div>
+            </div>
+            <div class="connector-card">
+              <div class="connector-icon redivis"><i class="fa-solid fa-shield-halved"></i></div>
+              <div class="connector-body">
+                <h3>Redivis (Columbia Data Platform) API</h3>
+                <p>Tracks restricted datasets (HCUP, L2 Voter Data, IPUMS), project permissions, and data custodian contacts.</p>
+                <span class="badge badge-warning"><i class="fa-solid fa-lock"></i> Restricted Access Sync</span>
+              </div>
+            </div>
+            <div class="connector-card">
+              <div class="connector-icon springshare"><i class="fa-solid fa-book-open-reader"></i></div>
+              <div class="connector-body">
+                <h3>Springshare Libguides API</h3>
+                <p>Scrapes subject guides, librarian assignments, and topic tabs for semantic embedding indexing.</p>
+                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Connected & Synced</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="log-card">
+            <h3><i class="fa-solid fa-terminal"></i> Ingestion System Log</h3>
+            <pre id="ingest-log-output" class="log-output">System ready. Click 'Trigger Live API Ingestion' to sync catalog sources.</pre>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Modal for Adding / Editing Datasets & Libguides -->
+    <div id="item-modal" class="modal-backdrop">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="modal-title">Add New Node</h3>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <form id="modal-form" onsubmit="handleModalSubmit(event)">
+          <input type="hidden" id="modal-node-type" value="dataset">
+          <input type="hidden" id="modal-node-id" value="">
+
+          <div class="form-group">
+            <label for="modal-input-title">Title *</label>
+            <input type="text" id="modal-input-title" required placeholder="Node title...">
+          </div>
+
+          <div class="form-group">
+            <label for="modal-input-description">Description *</label>
+            <textarea id="modal-input-description" rows="3" required placeholder="Detailed description used for vector embedding..."></textarea>
+          </div>
+
+          <div id="dataset-fields">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="modal-input-platform">Platform</label>
+                <select id="modal-input-platform">
+                  <option value="CLIO">CLIO Catalog</option>
+                  <option value="Redivis">Redivis (Columbia Data Platform)</option>
+                  <option value="External">External Repository</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="modal-input-access">Access Level</label>
+                <select id="modal-input-access">
+                  <option value="Columbia-Licensed">Columbia-Licensed</option>
+                  <option value="Restricted">Restricted (Contact Custodian)</option>
+                  <option value="Open">Open Access</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="modal-input-manager">Subject Specialist / Data Manager</label>
+              <input type="text" id="modal-input-manager" placeholder="e.g. Jeremiah, RDS Librarian...">
+            </div>
+          </div>
+
+          <div id="libguide-fields" style="display: none;">
+            <div class="form-group">
+              <label for="modal-input-program">Target Program / School</label>
+              <input type="text" id="modal-input-program" placeholder="e.g. SIPA MPA-ESP, Medical Campus...">
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save & Re-Embed Node</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

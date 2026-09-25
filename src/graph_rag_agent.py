@@ -2,7 +2,7 @@ import json
 import sys
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from neptune_client import NeptuneGraphClient
+from src.neptune_client import NeptuneGraphClient
 
 # Ensure UTF-8 output encoding across environments
 if hasattr(sys.stdout, 'reconfigure'):
