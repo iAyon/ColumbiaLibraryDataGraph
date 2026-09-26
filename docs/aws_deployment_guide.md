@@ -45,7 +45,7 @@ This guide details how to deploy the **Columbia Library Data Graph** application
    - **DB Instance Class**: `db.t3.medium` (or `db.r5.large` for production)
    - **VPC**: Select your default VPC and enable IAM Database Authentication.
 3. Once provisioned, copy the **Neptune Endpoint URL**:
-   `https://columbia-library-neptune.cluster-xyz.us-east-1.neptune.amazonaws.com:8182`
+   `https://columbia-library-neptune.cluster-ckj0wuc0o6zy.us-east-1.neptune.amazonaws.com:8182`
 
 ---
 
@@ -61,7 +61,7 @@ This guide details how to deploy the **Columbia Library Data Graph** application
    ```
 3. **Execute Neptune Bulk Loader**:
    ```bash
-   curl -X POST https://YOUR-NEPTUNE-ENDPOINT:8182/loader \
+   curl -X POST https://columbia-library-neptune.cluster-ckj0wuc0o6zy.us-east-1.neptune.amazonaws.com:8182/loader \
      -H 'Content-Type: application/json' \
      -d '{
            "source" : "s3://columbia-library-graph-data/opencypher/",
