@@ -15,7 +15,7 @@
         "CodeConfigurationValues": {
           "Runtime": "PYTHON_311",
           "BuildCommand": "python3 -m pip install -r requirements.txt",
-          "StartCommand": "python app.py",
+          "StartCommand": "python3 app.py",
           "Port": "5000",
           "RuntimeEnvironmentVariables": {
             "NEPTUNE_ENDPOINT": "https://columbia-library-neptune.cluster-ckj0wuc0o6zy.us-east-1.neptune.amazonaws.com:8182"

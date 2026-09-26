@@ -1,6 +1,6 @@
 # Live AWS Production Application
 
-🌐 **Public AWS App Runner URL**: **[https://9gbn8awd2t.us-east-1.awsapprunner.com](https://9gbn8awd2t.us-east-1.awsapprunner.com)**
+🌐 **Public AWS App Runner URL**: **[https://bwjbnvzhui.us-east-1.awsapprunner.com](https://bwjbnvzhui.us-east-1.awsapprunner.com)**
 🗄️ **AWS Neptune Endpoint**: `https://columbia-library-neptune.cluster-ckj0wuc0o6zy.us-east-1.neptune.amazonaws.com:8182`
 🔄 **Auto-Deployments**: Enabled (Every `git push` to `main` automatically deploys live to AWS).
 

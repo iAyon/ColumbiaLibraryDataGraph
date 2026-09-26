@@ -2,7 +2,7 @@ import subprocess
 import json
 import time
 
-SERVICE_ARN = "arn:aws:apprunner:us-east-1:682033467946:service/columbia-library-datagraph/d7d5721e902c49ddb4c11037edf14f93"
+SERVICE_ARN = "arn:aws:apprunner:us-east-1:682033467946:service/columbia-library-datagraph/ced9870fa80c4c08885b7673eb406d8c"
 
 while True:
     try:
