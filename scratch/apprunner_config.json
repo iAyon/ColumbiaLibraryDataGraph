@@ -14,7 +14,7 @@
         "ConfigurationSource": "API",
         "CodeConfigurationValues": {
           "Runtime": "PYTHON_311",
-          "BuildCommand": "pip install -r requirements.txt",
+          "BuildCommand": "python3 -m pip install -r requirements.txt",
           "StartCommand": "python app.py",
           "Port": "5000",
           "RuntimeEnvironmentVariables": {
