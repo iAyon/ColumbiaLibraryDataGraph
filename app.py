@@ -23,14 +23,35 @@ EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
 compute_mode = "Cloud LLM (OpenAI GPT-4 / AWS Bedrock)"
 
 print(f"Initializing Columbia Library Knowledge Graph Engine...")
+class FallbackEmbeddingModel:
+    def encode(self, text, **kwargs):
+        import hashlib
+        if isinstance(text, list):
+            return np.array([self.encode(t) for t in text])
+        words = str(text).lower().split()
+        vec = np.zeros(384, dtype=np.float32)
+        for i, word in enumerate(words):
+            h = int(hashlib.md5(word.encode('utf-8')).hexdigest(), 16)
+            idx = h % 384
+            vec[idx] += 1.0 / (i + 1)
+        norm = np.linalg.norm(vec)
+        if norm > 0:
+            vec = vec / norm
+        return vec
+
 _embedding_model = None
 
 def get_embedding_model():
     global _embedding_model
     if _embedding_model is None:
-        print(f"Loading Embedding Model: {EMBEDDING_MODEL_NAME}...")
-        _embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+        try:
+            print(f"Loading Embedding Model: {EMBEDDING_MODEL_NAME}...")
+            _embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+        except Exception as e:
+            print(f"Warning: Could not load SentenceTransformer ({e}). Using FallbackEmbeddingModel.")
+            _embedding_model = FallbackEmbeddingModel()
     return _embedding_model
+
 
 neptune_client = NeptuneGraphClient()
 
