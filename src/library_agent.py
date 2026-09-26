@@ -1,30 +1,47 @@
 import json
 import sys
+import logging
 import numpy as np
 from sentence_transformers import SentenceTransformer
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Ensure stdout supports UTF-8 characters (emojis) across environments
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
-# Load the same embedding model
-EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
-print(f"Loading query embedding model: {EMBEDDING_MODEL_NAME}")
-embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+# Constants
+EMBEDDING_MODEL_NAME: str = "BAAI/bge-small-en-v1.5"
+QUERY_PREFIX: str = "Represent this sentence for searching relevant passages: "
 
-def cosine_similarity(vec1, vec2):
-    return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
+logger.info(f"Loading query embedding model: {EMBEDDING_MODEL_NAME}")
+try:
+    embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+except Exception as e:
+    logger.error(f"Failed to load embedding model: {e}")
+    embedding_model = None
+
+def cosine_similarity(vec1: list, vec2: list) -> float:
+    """Calculates cosine similarity between two vector embeddings."""
+    if not vec1 or not vec2:
+        return 0.0
+    return float(np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2)))
 
 class ColumbiaLibraryAgent:
-    def __init__(self, data_path):
-        with open(data_path, "r") as f:
+    """Discovery agent prototype using vector search and access routing policy."""
+    def __init__(self, data_path: str):
+        with open(data_path, "r", encoding="utf-8") as f:
             self.graph_data = json.load(f)
 
-    def search(self, query: str):
+    def search(self, query: str) -> None:
+        """Executes vector search against datasets and libguides."""
         print(f"\n--- Processing Query: '{query}' ---")
-        # BGE models require a prefix for queries for optimal retrieval
-        query_prefix = "Represent this sentence for searching relevant passages: "
-        query_vec = embedding_model.encode(query_prefix + query).tolist()
+        if not embedding_model:
+            logger.error("Embedding model unavailable.")
+            return
+
+        query_vec = embedding_model.encode(QUERY_PREFIX + query).tolist()
 
         results = []
 
