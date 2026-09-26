@@ -12,7 +12,8 @@ from src.neptune_client import NeptuneGraphClient
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
-app = Flask(__name__, static_folder="static")
+STATIC_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "static"))
+app = Flask(__name__, static_folder=STATIC_DIR)
 CORS(app)
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "mock_graph_nodes.json")
@@ -47,11 +48,14 @@ def cosine_similarity(vec1, vec2):
 # ==================== STATIC ROUTES ====================
 @app.route("/")
 def index():
-    return send_from_directory(app.static_folder, "index.html")
+    return send_from_directory(STATIC_DIR, "index.html")
 
 @app.route("/<path:path>")
 def static_files(path):
-    return send_from_directory(app.static_folder, path)
+    file_path = os.path.join(STATIC_DIR, path)
+    if os.path.exists(file_path):
+        return send_from_directory(STATIC_DIR, path)
+    return send_from_directory(STATIC_DIR, "index.html")
 
 # ==================== PUBLIC DISCOVERY APIs ====================
 @app.route("/api/stats", methods=["GET"])
