@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NEPTUNE_ENDPOINT=${NEPTUNE_ENDPOINT:-https://your-neptune-cluster.cluster-xyz.us-east-1.neptune.amazonaws.com:8182}
+      - REDIVIS_API_TOKEN=${REDIVIS_API_TOKEN:-}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
