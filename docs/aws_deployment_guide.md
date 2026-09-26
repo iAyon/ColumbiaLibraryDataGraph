@@ -1,3 +1,11 @@
+# Live AWS Production Application
+
+🌐 **Public AWS App Runner URL**: **[https://gidrinkmbv.us-east-1.awsapprunner.com](https://gidrinkmbv.us-east-1.awsapprunner.com)**
+🗄️ **AWS Neptune Endpoint**: `https://columbia-library-neptune.cluster-ckj0wuc0o6zy.us-east-1.neptune.amazonaws.com:8182`
+🔄 **Auto-Deployments**: Enabled (Every `git push` to `main` automatically deploys live to AWS).
+
+---
+
 # Step-by-Step AWS Deployment Guide
 
 This guide details how to deploy the **Columbia Library Data Graph** application and Knowledge Graph onto AWS using **AWS Neptune**, **Amazon ECR**, and **AWS ECS Fargate**.

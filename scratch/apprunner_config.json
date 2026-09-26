@@ -1,0 +1,31 @@
+{
+  "ServiceName": "columbia-library-datagraph",
+  "SourceConfiguration": {
+    "AuthenticationConfiguration": {
+      "ConnectionArn": "arn:aws:apprunner:us-east-1:682033467946:connection/Hackathon_Resilience_Agent_v2/a78b672840d544f2a3573677a6b9d3cf"
+    },
+    "CodeRepository": {
+      "RepositoryUrl": "https://github.com/iAyon/ColumbiaLibraryDataGraph",
+      "SourceCodeVersion": {
+        "Type": "BRANCH",
+        "Value": "main"
+      },
+      "CodeConfiguration": {
+        "ConfigurationSource": "API",
+        "CodeConfigurationValues": {
+          "Runtime": "PYTHON_311",
+          "BuildCommand": "pip install -r requirements.txt",
+          "StartCommand": "python app.py",
+          "Port": "5000",
+          "RuntimeEnvironmentVariables": {
+            "NEPTUNE_ENDPOINT": "https://columbia-library-neptune.cluster-ckj0wuc0o6zy.us-east-1.neptune.amazonaws.com:8182"
+          }
+        }
+      }
+    }
+  },
+  "InstanceConfiguration": {
+    "Cpu": "1 vCPU",
+    "Memory": "2 GB"
+  }
+}
