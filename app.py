@@ -23,9 +23,17 @@ EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
 compute_mode = "Cloud LLM (OpenAI GPT-4 / AWS Bedrock)"
 
 print(f"Initializing Columbia Library Knowledge Graph Engine...")
-print(f"Loading Embedding Model: {EMBEDDING_MODEL_NAME}")
-embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+_embedding_model = None
+
+def get_embedding_model():
+    global _embedding_model
+    if _embedding_model is None:
+        print(f"Loading Embedding Model: {EMBEDDING_MODEL_NAME}...")
+        _embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+    return _embedding_model
+
 neptune_client = NeptuneGraphClient()
+
 
 def load_graph_data():
     if not os.path.exists(DATA_PATH):
@@ -96,7 +104,7 @@ def search():
 
     graph_data = load_graph_data()
     query_prefix = "Represent this sentence for searching relevant passages: "
-    query_vec = embedding_model.encode(query_prefix + query).tolist()
+    query_vec = get_embedding_model().encode(query_prefix + query).tolist()
 
     candidates = []
 
@@ -260,7 +268,7 @@ def admin_datasets():
         if not title or not description:
             return jsonify({"error": "Title and description are required"}), 400
 
-        embedding = embedding_model.encode(description).tolist()
+        embedding = get_embedding_model().encode(description).tolist()
 
         new_dataset = {
             "id": ds_id,
@@ -309,7 +317,7 @@ def admin_libguides():
         if not title or not description:
             return jsonify({"error": "Title and description are required"}), 400
 
-        embedding = embedding_model.encode(description).tolist()
+        embedding = get_embedding_model().encode(description).tolist()
 
         new_libguide = {
             "id": lg_id,
@@ -350,7 +358,7 @@ def trigger_live_ingestion():
     synced_count = 0
 
     for r_item in redivis_datasets:
-        r_item["embedding"] = embedding_model.encode(r_item["description"]).tolist()
+        r_item["embedding"] = get_embedding_model().encode(r_item["description"]).tolist()
         idx = next((i for i, d in enumerate(existing_ds) if d["id"] == r_item["id"]), None)
         if idx is not None:
             existing_ds[idx] = r_item
