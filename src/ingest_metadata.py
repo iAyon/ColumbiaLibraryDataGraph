@@ -45,12 +45,25 @@ def mock_ingest_clio():
         {
             "id": "clio_965_elections",
             "title": "Licensed Election Data Collection (965DataGate)",
-            "description": "Licensed aggregate election and voting behavior datasets indexed in CLIO under 965DataGate.",
+            "description": "Columbia licensed aggregate national and international election return datasets, voter turnout microdata, and parliamentary voting records indexed in CLIO under 965DataGate.",
             "platform": "CLIO Catalog",
             "access_level": "Columbia-Licensed",
             "index_key": "965DataGate",
             "manager": "RDS Librarian",
-            "language": "English"
+            "language": "English",
+            "upvotes": 0,
+            "downvotes": 0
+        },
+        {
+            "id": "open_india_election",
+            "title": "Election Commission of India (ECI) & Lok Sabha Electoral Dataset (2024 & Historical)",
+            "description": "Comprehensive constituency-level electoral data for India general elections (Lok Sabha 2024 and historical), voter turnout statistics, candidate demographics, and Election Commission of India (ECI) poll reports. Supported by South Asian Studies Librarian.",
+            "platform": "Open Source Repository",
+            "access_level": "Open Access",
+            "manager": "South Asian Studies Librarian & Political Science RDS",
+            "language": "English / Hindi",
+            "upvotes": 0,
+            "downvotes": 0
         },
         {
             "id": "open_nasa_climate",
@@ -59,7 +72,9 @@ def mock_ingest_clio():
             "platform": "Open Source Repository",
             "access_level": "Open Access",
             "manager": "Open NASA Portal",
-            "language": "English"
+            "language": "English",
+            "upvotes": 0,
+            "downvotes": 0
         },
         {
             "id": "open_amazon_biodiversity",
@@ -69,7 +84,7 @@ def mock_ingest_clio():
             "access_level": "Columbia-Licensed",
             "manager": "Environmental Science Library & AI CoP",
             "language": "Portuguese / English",
-            "upvotes": 14,
+            "upvotes": 0,
             "downvotes": 0
         },
         {
@@ -80,8 +95,8 @@ def mock_ingest_clio():
             "access_level": "Open Access",
             "manager": "Chemistry & Earth Sciences Library",
             "language": "English",
-            "upvotes": 22,
-            "downvotes": 1
+            "upvotes": 0,
+            "downvotes": 0
         },
         {
             "id": "clio_multilingual_global",
@@ -91,7 +106,7 @@ def mock_ingest_clio():
             "access_level": "Columbia-Licensed",
             "manager": "Global Studies Librarian & CUIT AI",
             "language": "Multilingual (FR/ES/DE/ZH/PT)",
-            "upvotes": 18,
+            "upvotes": 0,
             "downvotes": 0
         }
     ]
@@ -212,7 +227,7 @@ def mock_ingest_libguides():
         {
             "id": "lg_election_data",
             "title": "Election Data Guide",
-            "description": "Guides election data discovery, including L2 voter microdata and IPUMS restricted access decennial census datasets.",
+            "description": "Guides national and international election data discovery, including India Lok Sabha electoral returns, voter turnout, L2 voter microdata, and IPUMS restricted access decennial census datasets.",
             "program": "Political Science & CPRC",
             "url": "https://guides.library.columbia.edu/ElectionData/",
             "language": "English"

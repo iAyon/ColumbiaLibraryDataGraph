@@ -5,10 +5,16 @@ clio_965_polls,platform_clio_catalog,HOSTED_ON
 clio_965_polls,spec_rds librarian,MANAGED_BY
 clio_965_elections,platform_clio_catalog,HOSTED_ON
 clio_965_elections,spec_rds librarian,MANAGED_BY
+open_india_election,platform_open_source_repository,HOSTED_ON
+open_india_election,spec_south asian studies librarian & political science rds,MANAGED_BY
 open_nasa_climate,platform_open_source_repository,HOSTED_ON
 open_nasa_climate,spec_open nasa portal,MANAGED_BY
-open_census_public,platform_open_source_repository,HOSTED_ON
-open_census_public,spec_us census bureau,MANAGED_BY
+open_amazon_biodiversity,platform_clio_ai_enhanced_repository,HOSTED_ON
+open_amazon_biodiversity,spec_environmental science library & ai cop,MANAGED_BY
+open_barrier_reef,platform_clio_ai_enhanced_repository,HOSTED_ON
+open_barrier_reef,spec_chemistry & earth sciences library,MANAGED_BY
+clio_multilingual_global,platform_clio_ai_enhanced_repository,HOSTED_ON
+clio_multilingual_global,spec_global studies librarian & cuit ai,MANAGED_BY
 cdp_hcup,platform_redivis_(columbia_data_platform),HOSTED_ON
 cdp_hcup,spec_jeremiah,MANAGED_BY
 cdp_l2_voter,platform_redivis_(columbia_data_platform),HOSTED_ON

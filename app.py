@@ -115,6 +115,30 @@ def toggle_compute():
             compute_mode = mode
     return jsonify({"compute_mode": compute_mode})
 
+import re
+
+STOPWORDS = {'i', 'need', 'for', 'in', 'of', 'the', 'a', 'an', 'and', 'to', 'on', 'at', 'by', 'is', 'it', 'with', 'from', 'as', 'about', 'get', 'give', 'me', 'want', 'looking'}
+
+def extract_query_keywords(query_str):
+    return set(w for w in re.findall(r'\w+', str(query_str).lower()) if w not in STOPWORDS and len(w) > 1)
+
+def compute_hybrid_score(query_tokens, query_vec, item):
+    sem_score = cosine_similarity(query_vec, item.get("embedding", []))
+    title_lower = item.get("title", "").lower()
+    desc_lower = item.get("description", "").lower()
+
+    title_matches = sum(1 for t in query_tokens if t in title_lower)
+    desc_matches = sum(1 for t in query_tokens if t in desc_lower)
+
+    kw_boost = min((title_matches * 0.08) + (desc_matches * 0.04), 0.25)
+
+    upvotes = item.get("upvotes", 0)
+    downvotes = item.get("downvotes", 0)
+    fb_boost = min(0.04, max(-0.04, (upvotes - downvotes) * 0.003))
+
+    adjusted_score = min(0.999, round(sem_score + kw_boost + fb_boost, 4))
+    return adjusted_score, round(sem_score, 4)
+
 @app.route("/api/search", methods=["POST"])
 def search():
     req = request.get_json() or {}
@@ -126,41 +150,39 @@ def search():
     graph_data = load_graph_data()
     query_prefix = "Represent this sentence for searching relevant passages: "
     query_vec = get_embedding_model().encode(query_prefix + query).tolist()
+    query_tokens = extract_query_keywords(query)
 
     candidates = []
 
     # Search Datasets
     for ds in graph_data.get("datasets", []):
         if ds.get("embedding"):
-            score = cosine_similarity(query_vec, ds["embedding"])
-            # Boost score based on user upvotes (AI CoP User Feedback Loop)
-            upvotes = ds.get("upvotes", 0)
-            adjusted_score = round(score + (upvotes * 0.01), 4)
+            adjusted_score, raw_score = compute_hybrid_score(query_tokens, query_vec, ds)
 
             candidates.append({
                 "id": ds["id"],
                 "type": "Dataset",
                 "score": adjusted_score,
-                "raw_score": round(score, 4),
+                "raw_score": raw_score,
                 "title": ds.get("title"),
                 "description": ds.get("description"),
                 "platform": ds.get("platform"),
                 "access_level": ds.get("access_level"),
                 "manager": ds.get("manager"),
                 "language": ds.get("language", "English"),
-                "upvotes": upvotes,
+                "upvotes": ds.get("upvotes", 0),
                 "downvotes": ds.get("downvotes", 0)
             })
 
     # Search Libguides
     for lg in graph_data.get("libguides", []):
         if lg.get("embedding"):
-            score = cosine_similarity(query_vec, lg["embedding"])
+            adjusted_score, raw_score = compute_hybrid_score(query_tokens, query_vec, lg)
             candidates.append({
                 "id": lg["id"],
                 "type": "Libguide",
-                "score": round(score, 4),
-                "raw_score": round(score, 4),
+                "score": adjusted_score,
+                "raw_score": raw_score,
                 "title": lg.get("title"),
                 "description": lg.get("description"),
                 "program": lg.get("program"),

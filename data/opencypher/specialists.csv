@@ -1,7 +1,10 @@
 id:ID,name:string,:LABEL
 spec_rds librarian,RDS Librarian,SubjectSpecialist
+spec_south asian studies librarian & political science rds,South Asian Studies Librarian & Political Science RDS,SubjectSpecialist
 spec_open nasa portal,Open NASA Portal,SubjectSpecialist
-spec_us census bureau,US Census Bureau,SubjectSpecialist
+spec_environmental science library & ai cop,Environmental Science Library & AI CoP,SubjectSpecialist
+spec_chemistry & earth sciences library,Chemistry & Earth Sciences Library,SubjectSpecialist
+spec_global studies librarian & cuit ai,Global Studies Librarian & CUIT AI,SubjectSpecialist
 spec_jeremiah,Jeremiah,SubjectSpecialist
 spec_jeremiah & ashley (cprc / cuit),Jeremiah & Ashley (CPRC / CUIT),SubjectSpecialist
 spec_rds librarian & ciesin,RDS Librarian & CIESIN,SubjectSpecialist
