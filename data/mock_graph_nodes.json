@@ -9,6 +9,7 @@
       "index_key": "965DataGate",
       "manager": "RDS Librarian",
       "language": "English",
+      "url": "https://clio.columbia.edu/catalog?q=965DataGate",
       "embedding": [
         -0.01158751267939806,
         -0.055234670639038086,
@@ -394,8 +395,7 @@
         -0.041486140340566635,
         -0.03508826345205307,
         -0.03262276202440262
-      ],
-      "upvotes": 1
+      ]
     },
     {
       "id": "clio_965_polls",
@@ -406,6 +406,7 @@
       "index_key": "965DataGate",
       "manager": "RDS Librarian",
       "language": "English",
+      "url": "https://clio.columbia.edu/catalog?q=965DataGate",
       "embedding": [
         -0.05851162225008011,
         -0.019610781222581863,
@@ -802,6 +803,7 @@
       "index_key": "965DataGate",
       "manager": "RDS Librarian",
       "language": "English",
+      "url": "https://clio.columbia.edu/catalog?q=965DataGate",
       "upvotes": 0,
       "downvotes": 0,
       "embedding": [
@@ -1199,6 +1201,7 @@
       "access_level": "Open Access",
       "manager": "South Asian Studies Librarian & Political Science RDS",
       "language": "English / Hindi",
+      "url": "https://eci.gov.in/statistical-report/statistical-reports/",
       "upvotes": 0,
       "downvotes": 0,
       "embedding": [
@@ -1596,6 +1599,7 @@
       "access_level": "Open Access",
       "manager": "Open NASA Portal",
       "language": "English",
+      "url": "https://data.nasa.gov",
       "upvotes": 0,
       "downvotes": 0,
       "embedding": [
@@ -1993,6 +1997,7 @@
       "access_level": "Columbia-Licensed",
       "manager": "Environmental Science Library & AI CoP",
       "language": "Portuguese / English",
+      "url": "https://clio.columbia.edu",
       "upvotes": 0,
       "downvotes": 0,
       "embedding": [
@@ -2390,6 +2395,7 @@
       "access_level": "Open Access",
       "manager": "Chemistry & Earth Sciences Library",
       "language": "English",
+      "url": "https://clio.columbia.edu",
       "upvotes": 0,
       "downvotes": 0,
       "embedding": [
@@ -2787,6 +2793,7 @@
       "access_level": "Columbia-Licensed",
       "manager": "Global Studies Librarian & CUIT AI",
       "language": "Multilingual (FR/ES/DE/ZH/PT)",
+      "url": "https://clio.columbia.edu",
       "upvotes": 0,
       "downvotes": 0,
       "embedding": [

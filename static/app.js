@@ -190,21 +190,49 @@ function renderSearchResults(data) {
   const isRestricted = topMatch.access_level === 'Restricted';
 
   let alertMarkup = '';
+  let directLinkBtn = '';
+
   if (isDataset) {
     if (isRestricted) {
       alertMarkup = `
         <div class="agent-alert restricted">
           <strong><i class="fa-solid fa-triangle-exclamation"></i> AGENT ALERT: RESTRICTED ACCESS DATASET</strong>
           <span>Hosted on <strong>${topMatch.platform}</strong>. Excluded from default CLIO catalog search.</span>
-          <span>👉 <strong>Action Required:</strong> Contact custodian <strong>${topMatch.manager || 'Data Manager'}</strong> to request credentials on Redivis.</span>
+          <div style="margin-top: 0.5rem; padding: 0.4rem 0.6rem; background: rgba(0,0,0,0.25); border-radius: 6px; font-size: 0.8rem; line-height: 1.4;">
+            <strong style="color: #fbbf24;"><i class="fa-solid fa-route"></i> How to Access & Navigate:</strong>
+            <ol style="margin: 0.25rem 0 0 1.1rem; padding: 0; color: #e2e8f0;">
+              <li>Click the <strong>Request Access on Redivis</strong> button below to open the dataset workspace.</li>
+              <li>Log in with your Columbia UNI credentials.</li>
+              <li>Submit your project Data Use Agreement (DUA) to custodian <strong>${topMatch.manager || 'Data Manager'}</strong> for approval.</li>
+            </ol>
+          </div>
         </div>
       `;
+      directLinkBtn = `
+        <a href="${topMatch.url || 'https://columbia.redivis.com'}" target="_blank" class="btn btn-sm" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <i class="fa-solid fa-lock-open"></i> Request Access on Redivis ↗
+        </a>
+      `;
     } else {
+      const isOpensource = topMatch.access_level === 'Open Access';
       alertMarkup = `
         <div class="agent-alert licensed">
-          <strong><i class="fa-solid fa-circle-check"></i> COLUMBIA-LICENSED ACCESS</strong>
-          <span>Available to Columbia affiliates via UNI authentication on CLIO catalog.</span>
+          <strong><i class="fa-solid fa-circle-check"></i> ${isOpensource ? 'OPEN ACCESS DATASET' : 'COLUMBIA-LICENSED ACCESS'}</strong>
+          <span>${isOpensource ? 'Publicly available for academic research.' : 'Available to Columbia affiliates via UNI authentication on CLIO catalog.'}</span>
+          <div style="margin-top: 0.5rem; padding: 0.4rem 0.6rem; background: rgba(0,0,0,0.25); border-radius: 6px; font-size: 0.8rem; line-height: 1.4;">
+            <strong style="color: #38bdf8;"><i class="fa-solid fa-route"></i> How to Access & Navigate:</strong>
+            <ol style="margin: 0.25rem 0 0 1.1rem; padding: 0; color: #e2e8f0;">
+              <li>Click <strong>Open Resource</strong> below to access the dataset directly.</li>
+              ${topMatch.index_key ? `<li>In CLIO, use key index <code>${topMatch.index_key}</code> to retrieve catalog files.</li>` : '<li>Log in with your Columbia UNI if prompted.</li>'}
+              <li>Download tables, spatial layers, or query via API directly.</li>
+            </ol>
+          </div>
         </div>
+      `;
+      directLinkBtn = `
+        <a href="${topMatch.url || 'https://clio.columbia.edu'}" target="_blank" class="btn btn-sm btn-primary" style="text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Resource (${topMatch.platform || 'Direct'}) ↗
+        </a>
       `;
     }
   } else {
@@ -212,7 +240,19 @@ function renderSearchResults(data) {
       <div class="agent-alert licensed">
         <strong><i class="fa-solid fa-lightbulb"></i> CURATED RESEARCH LIBGUIDE</strong>
         <span>Targeted for program: <strong>${topMatch.program || 'General'}</strong>. Refer to guide tabs for analysis workflows.</span>
+        <div style="margin-top: 0.5rem; padding: 0.4rem 0.6rem; background: rgba(0,0,0,0.25); border-radius: 6px; font-size: 0.8rem; line-height: 1.4;">
+          <strong style="color: #38bdf8;"><i class="fa-solid fa-route"></i> How to Access & Navigate:</strong>
+          <ol style="margin: 0.25rem 0 0 1.1rem; padding: 0; color: #e2e8f0;">
+            <li>Click <strong>View Columbia Libguide</strong> to open the full subject portal.</li>
+            <li>Explore curated tabs, citation guides, and methodological instructions.</li>
+          </ol>
+        </div>
       </div>
+    `;
+    directLinkBtn = `
+      <a href="${topMatch.url || 'https://guides.library.columbia.edu'}" target="_blank" class="btn btn-sm btn-primary" style="text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem;">
+        <i class="fa-solid fa-book-open"></i> View Columbia Libguide ↗
+      </a>
     `;
   }
 
@@ -229,7 +269,7 @@ function renderSearchResults(data) {
       ${cypherQuery ? `<div class="cypher-box"><strong>AWS Neptune Cypher Traversal:</strong><br>${cypherQuery}</div>` : ''}
 
       <!-- AI CoP Actions Toolbar -->
-      <div class="card-actions">
+      <div class="card-actions" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
         <div class="feedback-buttons">
           <button id="upvote-btn-${topMatch.id}" class="vote-btn" onclick="sendFeedback('${topMatch.id}', 'upvote')">
             <i class="fa-solid fa-thumbs-up"></i> Helpful (${topMatch.upvotes || 0})
@@ -239,9 +279,12 @@ function renderSearchResults(data) {
           </button>
         </div>
 
-        <button class="btn btn-sm btn-accent" onclick="openAISummary('${topMatch.title.replace(/'/g, "\\'")}', '${topMatch.description.replace(/'/g, "\\'")}')">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> AI Synthesis & Guidelines
-        </button>
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          ${directLinkBtn}
+          <button class="btn btn-sm btn-accent" onclick="openAISummary('${topMatch.title.replace(/'/g, "\\'")}', '${topMatch.description.replace(/'/g, "\\'")}')">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Synthesis & Guidelines
+          </button>
+        </div>
       </div>
     </div>
   `;
@@ -253,6 +296,7 @@ function renderSearchResults(data) {
   if (otherMatches.length > 0) {
     container.insertAdjacentHTML('beforeend', `<h4 style="margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem;">Other Relevant Matches</h4>`);
     otherMatches.forEach(item => {
+      const itemUrl = item.url || (item.type === 'Libguide' ? 'https://guides.library.columbia.edu' : 'https://clio.columbia.edu');
       container.insertAdjacentHTML('beforeend', `
         <div class="match-card" style="padding: 0.85rem;">
           <div class="match-header">
@@ -260,7 +304,10 @@ function renderSearchResults(data) {
             <span class="score-badge" style="font-size: 0.7rem;">${(item.score * 100).toFixed(1)}%</span>
           </div>
           <p class="match-desc" style="font-size: 0.8rem; margin: 0.25rem 0;">${item.description}</p>
-          <div style="display: flex; justify-content: flex-end; margin-top: 0.4rem;">
+          <div style="display: flex; justify-content: flex-end; gap: 0.4rem; margin-top: 0.4rem;">
+            <a href="${itemUrl}" target="_blank" class="btn btn-sm btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem; text-decoration: none;">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Open ↗
+            </a>
             <button class="btn btn-sm btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="openAISummary('${item.title.replace(/'/g, "\\'")}', '${item.description.replace(/'/g, "\\'")}')">
               <i class="fa-solid fa-wand-magic-sparkles"></i> AI Summary
             </button>

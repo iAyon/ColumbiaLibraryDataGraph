@@ -170,6 +170,9 @@ def search():
                 "access_level": ds.get("access_level"),
                 "manager": ds.get("manager"),
                 "language": ds.get("language", "English"),
+                "url": ds.get("url", ""),
+                "index_key": ds.get("index_key", ""),
+                "project_permissions": ds.get("project_permissions", []),
                 "upvotes": ds.get("upvotes", 0),
                 "downvotes": ds.get("downvotes", 0)
             })
@@ -186,6 +189,8 @@ def search():
                 "title": lg.get("title"),
                 "description": lg.get("description"),
                 "program": lg.get("program"),
+                "url": lg.get("url", ""),
+                "key_sections": lg.get("key_sections", []),
                 "language": lg.get("language", "English")
             })
 

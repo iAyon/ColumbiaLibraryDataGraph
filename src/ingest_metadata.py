@@ -30,7 +30,8 @@ def mock_ingest_clio():
             "access_level": "Columbia-Licensed",
             "index_key": "965DataGate",
             "manager": "RDS Librarian",
-            "language": "English"
+            "language": "English",
+            "url": "https://clio.columbia.edu/catalog?q=965DataGate"
         },
         {
             "id": "clio_965_polls",
@@ -40,7 +41,8 @@ def mock_ingest_clio():
             "access_level": "Columbia-Licensed",
             "index_key": "965DataGate",
             "manager": "RDS Librarian",
-            "language": "English"
+            "language": "English",
+            "url": "https://clio.columbia.edu/catalog?q=965DataGate"
         },
         {
             "id": "clio_965_elections",
@@ -51,6 +53,7 @@ def mock_ingest_clio():
             "index_key": "965DataGate",
             "manager": "RDS Librarian",
             "language": "English",
+            "url": "https://clio.columbia.edu/catalog?q=965DataGate",
             "upvotes": 0,
             "downvotes": 0
         },
@@ -62,6 +65,7 @@ def mock_ingest_clio():
             "access_level": "Open Access",
             "manager": "South Asian Studies Librarian & Political Science RDS",
             "language": "English / Hindi",
+            "url": "https://eci.gov.in/statistical-report/statistical-reports/",
             "upvotes": 0,
             "downvotes": 0
         },
@@ -73,6 +77,7 @@ def mock_ingest_clio():
             "access_level": "Open Access",
             "manager": "Open NASA Portal",
             "language": "English",
+            "url": "https://data.nasa.gov",
             "upvotes": 0,
             "downvotes": 0
         },
@@ -84,6 +89,7 @@ def mock_ingest_clio():
             "access_level": "Columbia-Licensed",
             "manager": "Environmental Science Library & AI CoP",
             "language": "Portuguese / English",
+            "url": "https://clio.columbia.edu",
             "upvotes": 0,
             "downvotes": 0
         },
@@ -95,6 +101,7 @@ def mock_ingest_clio():
             "access_level": "Open Access",
             "manager": "Chemistry & Earth Sciences Library",
             "language": "English",
+            "url": "https://clio.columbia.edu",
             "upvotes": 0,
             "downvotes": 0
         },
@@ -106,6 +113,7 @@ def mock_ingest_clio():
             "access_level": "Columbia-Licensed",
             "manager": "Global Studies Librarian & CUIT AI",
             "language": "Multilingual (FR/ES/DE/ZH/PT)",
+            "url": "https://clio.columbia.edu",
             "upvotes": 0,
             "downvotes": 0
         }
